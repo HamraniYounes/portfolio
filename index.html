@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="fr" data-lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hamrani Younes — Networking · Systems · Security</title>
+<meta name="description" content="Portfolio de Hamrani Younes, Administrateur Systèmes et Télécom — réseau, systèmes, sécurité.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a1119;
+    --bg-panel:#101a26;
+    --bg-panel-raised:#132030;
+    --border:#1f3040;
+    --border-bright:#2c4258;
+    --text:#e8ecf1;
+    --text-dim:#7e91a3;
+    --text-faint:#4c5c6c;
+    --amber:#e8a23d;
+    --amber-dim:#8a6329;
+    --teal:#4fb8a6;
+    --teal-dim:#2c675e;
+    --red:#c9605a;
+    --font-display:'Space Grotesk', sans-serif;
+    --font-mono:'IBM Plex Mono', monospace;
+    --font-body:'Inter', sans-serif;
+    --maxw:1080px;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important;}
+  }
+
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--font-body);
+    line-height:1.6;
+    overflow-x:hidden;
+    background-image:
+      radial-gradient(circle at 15% 8%, rgba(79,184,166,0.06), transparent 40%),
+      radial-gradient(circle at 85% 30%, rgba(232,162,61,0.05), transparent 45%);
+  }
+
+  a{color:inherit;text-decoration:none;}
+  ul{list-style:none;}
+
+  ::selection{background:var(--amber);color:#0a1119;}
+
+  :focus-visible{
+    outline:2px solid var(--amber);
+    outline-offset:3px;
+  }
+
+  .mono{font-family:var(--font-mono);}
+
+  /* ---------- layout shell ---------- */
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px;}
+
+  /* ---------- top bar / nav ---------- */
+  .topbar{
+    position:fixed;top:0;left:0;right:0;
+    z-index:100;
+    background:rgba(10,17,25,0.82);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border);
+  }
+  .topbar-inner{
+    max-width:var(--maxw);margin:0 auto;padding:0 28px;
+    display:flex;align-items:center;justify-content:space-between;
+    height:60px;
+  }
+  .brand{
+    font-family:var(--font-mono);
+    font-size:13px;
+    color:var(--text-dim);
+    display:flex;align-items:center;gap:8px;
+  }
+  .brand .dot{
+    width:7px;height:7px;border-radius:50%;
+    background:var(--teal);
+    box-shadow:0 0 8px var(--teal);
+    animation:pulse-dot 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse-dot{
+    0%,100%{opacity:1;}
+    50%{opacity:0.35;}
+  }
+  .brand strong{color:var(--text);font-weight:600;}
+
+  nav.mainnav{display:flex;gap:2px;}
+  nav.mainnav a{
+    font-family:var(--font-mono);
+    font-size:12px;
+    color:var(--text-dim);
+    padding:8px 12px;
+    border-radius:4px;
+    transition:color .15s ease, background .15s ease;
+    white-space:nowrap;
+  }
+  nav.mainnav a:hover{color:var(--text);background:var(--bg-panel-raised);}
+  nav.mainnav a .port{color:var(--teal);}
+
+  .lang-toggle{
+    display:flex;
+    border:1px solid var(--border-bright);
+    border-radius:6px;
+    overflow:hidden;
+    font-family:var(--font-mono);
+    font-size:12px;
+  }
+  .lang-toggle button{
+    background:transparent;
+    border:none;
+    color:var(--text-dim);
+    padding:7px 12px;
+    cursor:pointer;
+    transition:background .15s ease,color .15s ease;
+  }
+  .lang-toggle button.active{
+    background:var(--amber);
+    color:#1a1206;
+    font-weight:600;
+  }
+
+  .navlinks-mobile-toggle{display:none;}
+
+  @media (max-width:820px){
+    nav.mainnav{display:none;}
+  }
+
+  /* ---------- hero ---------- */
+  .hero{
+    min-height:100svh;
+    display:flex;
+    align-items:center;
+    padding-top:90px;
+    padding-bottom:60px;
+    position:relative;
+  }
+  .hero-grid{
+    position:absolute;inset:0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size:64px 64px;
+    opacity:0.18;
+    mask-image:linear-gradient(to bottom, black, transparent 85%);
+    pointer-events:none;
+  }
+  .hero-inner{position:relative;z-index:2;width:100%;}
+  .eyebrow{
+    font-family:var(--font-mono);
+    font-size:13px;
+    color:var(--teal);
+    letter-spacing:0.06em;
+    display:flex;align-items:center;gap:10px;
+    margin-bottom:22px;
+  }
+  .eyebrow::before{
+    content:'';
+    width:22px;height:1px;
+    background:var(--teal);
+  }
+  h1.name{
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:clamp(2.6rem, 7vw, 5.2rem);
+    line-height:0.98;
+    letter-spacing:-0.02em;
+    margin-bottom:10px;
+    text-transform:uppercase;
+  }
+  h1.name span{display:block;}
+  h1.name .last{color:var(--amber);}
+  .role{
+    font-family:var(--font-display);
+    font-size:clamp(1.1rem, 2.4vw, 1.5rem);
+    color:var(--text-dim);
+    font-weight:500;
+    margin-bottom:34px;
+    max-width:640px;
+  }
+  .role .cursor{
+    display:inline-block;
+    width:2px;height:1em;
+    background:var(--amber);
+    margin-left:2px;
+    vertical-align:-0.15em;
+    animation:blink 1s step-end infinite;
+  }
+  @keyframes blink{50%{opacity:0;}}
+
+  .hero-ctas{
+    display:flex;gap:14px;flex-wrap:wrap;
+    margin-bottom:56px;
+  }
+  .btn{
+    font-family:var(--font-mono);
+    font-size:13px;
+    padding:12px 20px;
+    border-radius:6px;
+    display:inline-flex;align-items:center;gap:8px;
+    transition:transform .15s ease, background .15s ease, border-color .15s ease;
+    border:1px solid var(--border-bright);
+  }
+  .btn:hover{transform:translateY(-1px);}
+  .btn-primary{background:var(--amber);color:#1a1206;font-weight:600;border-color:var(--amber);}
+  .btn-primary:hover{background:#f3ad48;}
+  .btn-ghost{color:var(--text);background:var(--bg-panel);}
+  .btn-ghost:hover{border-color:var(--teal);color:var(--teal);}
+
+  /* traceroute terminal */
+  .terminal{
+    background:var(--bg-panel);
+    border:1px solid var(--border);
+    border-radius:10px;
+    max-width:640px;
+    overflow:hidden;
+    box-shadow:0 30px 60px -20px rgba(0,0,0,0.6);
+  }
+  .terminal-head{
+    display:flex;align-items:center;gap:8px;
+    padding:10px 14px;
+    border-bottom:1px solid var(--border);
+    font-family:var(--font-mono);
+    font-size:11px;
+    color:var(--text-faint);
+  }
+  .terminal-head .tld{
+    width:8px;height:8px;border-radius:50%;background:var(--text-faint);
+  }
+  .terminal-body{
+    padding:18px 20px 22px;
+    font-family:var(--font-mono);
+    font-size:12.5px;
+    min-height:168px;
+  }
+  .terminal-body .cmdline{color:var(--text-dim);margin-bottom:10px;}
+  .terminal-body .cmdline .prompt{color:var(--teal);}
+  .hop{
+    display:grid;
+    grid-template-columns:20px 1fr auto;
+    gap:12px;
+    color:var(--text-dim);
+    opacity:0;
+    transform:translateX(-6px);
+    animation:hop-in .4s ease forwards;
+  }
+  .hop .n{color:var(--text-faint);}
+  .hop .host{color:var(--text);}
+  .hop .t{color:var(--teal);text-align:right;}
+  .hop.final .host{color:var(--amber);font-weight:600;}
+  .hop.final .t{color:var(--amber);}
+  @keyframes hop-in{to{opacity:1;transform:translateX(0);}}
+
+  /* ---------- sections ---------- */
+  section{padding:110px 0;position:relative;}
+  .section-head{
+    display:flex;align-items:baseline;gap:14px;
+    margin-bottom:48px;
+  }
+  .section-tag{
+    font-family:var(--font-mono);
+    font-size:12px;
+    color:var(--amber);
+    border:1px solid var(--amber-dim);
+    padding:4px 9px;
+    border-radius:4px;
+  }
+  h2.section-title{
+    font-family:var(--font-display);
+    font-size:clamp(1.6rem,3.4vw,2.4rem);
+    font-weight:600;
+    letter-spacing:-0.01em;
+  }
+
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease, transform .6s ease;}
+  .reveal.in{opacity:1;transform:translateY(0);}
+
+  /* panel look */
+  .panel{
+    background:var(--bg-panel);
+    border:1px solid var(--border);
+    border-radius:10px;
+  }
+  .panel-head{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:12px 18px;
+    border-bottom:1px solid var(--border);
+    font-family:var(--font-mono);
+    font-size:11px;
+    color:var(--text-faint);
+  }
+  .panel-head .status{color:var(--teal);}
+
+  /* about */
+  .about-grid{
+    display:grid;
+    grid-template-columns:1.3fr 1fr;
+    gap:28px;
+  }
+  @media (max-width:760px){.about-grid{grid-template-columns:1fr;}}
+  .about-text p{color:var(--text-dim);font-size:1rem;max-width:60ch;}
+  .about-text p + p{margin-top:14px;}
+  .config-block{padding:18px 20px;font-family:var(--font-mono);font-size:12.5px;color:var(--text-dim);}
+  .config-block .k{color:var(--teal);}
+  .config-block .v{color:var(--text);}
+  .config-block div{margin-bottom:7px;}
+  .hobbies{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;}
+  .hobby-chip{
+    font-family:var(--font-mono);font-size:11.5px;
+    padding:6px 11px;border:1px solid var(--border-bright);
+    border-radius:20px;color:var(--text-dim);
+  }
+
+  /* experience */
+  .exp-item{
+    border-left:2px solid var(--border);
+    padding-left:26px;
+    padding-bottom:44px;
+    position:relative;
+  }
+  .exp-item:last-child{padding-bottom:0;}
+  .exp-item::before{
+    content:'';
+    position:absolute;left:-7px;top:2px;
+    width:12px;height:12px;border-radius:50%;
+    background:var(--bg);
+    border:2px solid var(--teal);
+  }
+  .exp-item.current::before{
+    border-color:var(--amber);
+    box-shadow:0 0 0 4px rgba(232,162,61,0.15);
+  }
+  .exp-top{
+    display:flex;justify-content:space-between;align-items:baseline;
+    flex-wrap:wrap;gap:8px;margin-bottom:6px;
+  }
+  .exp-role{font-family:var(--font-display);font-size:1.2rem;font-weight:600;}
+  .exp-org{color:var(--amber);font-weight:600;}
+  .exp-meta{font-family:var(--font-mono);font-size:11.5px;color:var(--text-faint);}
+  .exp-list{margin-top:12px;}
+  .exp-list li{
+    color:var(--text-dim);
+    font-size:0.95rem;
+    padding-left:18px;
+    position:relative;
+    margin-bottom:8px;
+  }
+  .exp-list li::before{
+    content:'›';
+    position:absolute;left:0;color:var(--teal);
+    font-family:var(--font-mono);
+  }
+  .badge-live{
+    font-family:var(--font-mono);font-size:10.5px;
+    color:var(--amber);border:1px solid var(--amber-dim);
+    padding:2px 8px;border-radius:20px;
+    display:inline-flex;align-items:center;gap:5px;
+  }
+  .badge-live .d{width:5px;height:5px;border-radius:50%;background:var(--amber);animation:pulse-dot 2s infinite;}
+
+  /* education */
+  .edu-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
+  @media (max-width:760px){.edu-grid{grid-template-columns:1fr;}}
+  .edu-card{padding:24px 22px;}
+  .edu-card .deg{font-family:var(--font-display);font-size:1.15rem;font-weight:600;margin-bottom:4px;}
+  .edu-card .school{color:var(--teal);font-family:var(--font-mono);font-size:12.5px;margin-bottom:2px;}
+  .edu-card .when{color:var(--text-faint);font-family:var(--font-mono);font-size:11.5px;margin-bottom:14px;}
+  .edu-card p, .edu-card ul{color:var(--text-dim);font-size:0.92rem;}
+  .edu-card ul{margin-top:8px;}
+  .edu-card li{padding-left:16px;position:relative;margin-bottom:6px;}
+  .edu-card li::before{content:'–';position:absolute;left:0;color:var(--text-faint);}
+
+  /* skills - interface table */
+  .iface-table{width:100%;border-collapse:collapse;font-family:var(--font-mono);font-size:12.5px;}
+  .iface-table th{
+    text-align:left;color:var(--text-faint);
+    font-weight:500;font-size:11px;
+    padding:10px 18px;border-bottom:1px solid var(--border);
+    text-transform:uppercase;letter-spacing:.04em;
+  }
+  .iface-table td{
+    padding:14px 18px;border-bottom:1px solid var(--border);
+    vertical-align:top;color:var(--text-dim);
+  }
+  .iface-table tr:last-child td{border-bottom:none;}
+  .iface-name{color:var(--text);font-weight:600;}
+  .iface-status{display:flex;align-items:center;gap:7px;}
+  .iface-status .d{width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 6px var(--teal);}
+  .iface-status.prep .d{background:var(--amber);box-shadow:0 0 6px var(--amber);}
+  .iface-status span{color:var(--teal);}
+  .iface-status.prep span{color:var(--amber);}
+
+  /* certifications */
+  .cert-card{
+    padding:22px;
+    display:flex;gap:18px;align-items:flex-start;
+  }
+  .cert-icon{
+    flex-shrink:0;
+    width:46px;height:46px;border-radius:8px;
+    border:1px solid var(--border-bright);
+    display:flex;align-items:center;justify-content:center;
+    color:var(--amber);
+    font-family:var(--font-mono);font-weight:600;font-size:13px;
+  }
+  .cert-name{font-family:var(--font-display);font-weight:600;font-size:1.05rem;margin-bottom:4px;}
+  .cert-meta{color:var(--text-dim);font-size:0.9rem;}
+  .cert-meta .mono{color:var(--text-faint);font-size:11.5px;display:block;margin-top:6px;}
+
+  /* contact */
+  .contact-panel{padding:40px;text-align:center;}
+  .contact-panel .config-block{text-align:left;max-width:420px;margin:24px auto 0;}
+  .contact-links{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:28px;}
+
+  footer{
+    padding:34px 0 50px;
+    text-align:center;
+    color:var(--text-faint);
+    font-family:var(--font-mono);
+    font-size:11.5px;
+  }
+
+  /* packet travel decoration in section dividers */
+  .divider{
+    position:relative;height:1px;background:var(--border);
+    margin:0 0 0;overflow:visible;
+  }
+
+  @media (max-width:600px){
+    section{padding:70px 0;}
+    .hero{padding-top:80px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner wrap" style="padding:0;">
+    <div class="brand"><span class="dot"></span><strong data-fr="HAMRANI.YOUNES" data-en="HAMRANI.YOUNES">HAMRANI.YOUNES</strong></div>
+    <nav class="mainnav">
+      <a href="#home"><span class="port">eth0</span> <span data-fr="Accueil" data-en="Home">Accueil</span></a>
+      <a href="#about"><span class="port">eth1</span> <span data-fr="Profil" data-en="About">Profil</span></a>
+      <a href="#experience"><span class="port">eth2</span> <span data-fr="Expérience" data-en="Experience">Expérience</span></a>
+      <a href="#education"><span class="port">eth3</span> <span data-fr="Formation" data-en="Education">Formation</span></a>
+      <a href="#skills"><span class="port">eth4</span> <span data-fr="Compétences" data-en="Skills">Compétences</span></a>
+      <a href="#certifications"><span class="port">eth5</span> <span data-fr="Certifs" data-en="Certs">Certifs</span></a>
+      <a href="#contact"><span class="port">eth6</span> <span data-fr="Contact" data-en="Contact">Contact</span></a>
+    </nav>
+    <div class="lang-toggle" role="group" aria-label="Language switch">
+      <button type="button" data-setlang="fr" class="active">FR</button>
+      <button type="button" data-setlang="en">EN</button>
+    </div>
+  </div>
+</div>
+
+<section class="hero" id="home">
+  <div class="hero-grid"></div>
+  <div class="wrap hero-inner">
+    <div class="eyebrow mono" data-fr="MOUSCRON, BELGIQUE // DISPONIBLE" data-en="MOUSCRON, BELGIUM // OPEN TO OPPORTUNITIES">MOUSCRON, BELGIQUE // DISPONIBLE</div>
+    <h1 class="name"><span>HAMRANI</span><span class="last">YOUNES</span></h1>
+    <p class="role mono">
+      <span data-fr="Réseau · Systèmes · Sécurité" data-en="Networking · Systems · Security">Réseau · Systèmes · Sécurité</span><span class="cursor"></span>
+    </p>
+    <div class="hero-ctas">
+      <a class="btn btn-primary" href="#contact" data-fr="Me contacter" data-en="Get in touch">Me contacter</a>
+      <a class="btn btn-ghost" href="#experience" data-fr="Voir le parcours" data-en="View the path">Voir le parcours</a>
+      <a class="btn btn-ghost" href="CV_Younes_Hamrani.pdf" download data-fr="↓ Télécharger le CV" data-en="↓ Download CV">↓ Télécharger le CV</a>
+    </div>
+
+    <div class="terminal" aria-hidden="false">
+      <div class="terminal-head">
+        <span class="tld"></span><span class="tld"></span><span class="tld"></span>
+        <span style="margin-left:6px;" data-fr="zsh — traceroute" data-en="zsh — traceroute">zsh — traceroute</span>
+      </div>
+      <div class="terminal-body">
+        <div class="cmdline"><span class="prompt">younes@etnic</span>:~$ traceroute <span data-fr="carriere.route" data-en="career.route">carriere.route</span></div>
+        <div id="hops"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-tag mono">eth1</span>
+      <h2 class="section-title" data-fr="Profil" data-en="About">Profil</h2>
+    </div>
+    <div class="about-grid reveal">
+      <div class="about-text">
+        <p data-fr="Actuellement en poste à l'ETNIC en tant qu'administrateur systèmes et télécom. Ouvert à de nouvelles opportunités de carrière et de développement professionnel dans les domaines du réseau, des systèmes et de la sécurité."
+           data-en="Currently working at ETNIC as a Systems and Telecom Administrator. Open to new career opportunities and professional growth in the fields of networking, systems, and security.">
+          Actuellement en poste à l'ETNIC en tant qu'administrateur systèmes et télécom. Ouvert à de nouvelles opportunités de carrière et de développement professionnel dans les domaines du réseau, des systèmes et de la sécurité.
+        </p>
+        <p data-fr="Formé sur l'infrastructure réseau (routage/switching niveau CCNA, Fortinet), l'administration Windows/Linux et l'automatisation via Python et Ansible — avec un intérêt marqué pour la sécurité et les infrastructures programmables."
+           data-en="Trained in network infrastructure (routing/switching at CCNA level, Fortinet), Windows/Linux administration and automation with Python and Ansible — with a strong interest in security and programmable infrastructure.">
+          Formé sur l'infrastructure réseau (routage/switching niveau CCNA, Fortinet), l'administration Windows/Linux et l'automatisation via Python et Ansible — avec un intérêt marqué pour la sécurité et les infrastructures programmables.
+        </p>
+        <div class="hobbies">
+          <span class="hobby-chip" data-fr="Histoire" data-en="History">Histoire</span>
+          <span class="hobby-chip" data-fr="Muay Thaï" data-en="Muay Thai">Muay Thaï</span>
+          <span class="hobby-chip" data-fr="CTF" data-en="CTF">CTF</span>
+          <span class="hobby-chip" data-fr="Veille technologique" data-en="Technology watch">Veille technologique</span>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-head">
+          <span data-fr="show config" data-en="show config">show config</span>
+          <span class="status">● active</span>
+        </div>
+        <div class="config-block">
+          <div><span class="k">hostname</span> <span class="v">hamrani-younes</span></div>
+          <div><span class="k">location</span> <span class="v">Mouscron, BE</span></div>
+          <div><span class="k">role</span> <span class="v" data-fr="Systems &amp; Telecom Admin" data-en="Systems &amp; Telecom Admin">Systems &amp; Telecom Admin</span></div>
+          <div><span class="k">email</span> <span class="v">hamraniyounes@protonmail.com</span></div>
+          <div><span class="k">phone</span> <span class="v">+32 455 10 15 42</span></div>
+          <div><span class="k">linkedin</span> <span class="v">/in/younes-hamrani</span></div>
+          <div><span class="k">github</span> <span class="v">@HamraniYounes</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-tag mono">eth2</span>
+      <h2 class="section-title" data-fr="Expérience" data-en="Experience">Expérience</h2>
+    </div>
+
+    <div class="exp-item current reveal">
+      <div class="exp-top">
+        <div>
+          <div class="exp-role">
+            <span data-fr="Administrateur Systèmes et Télécom" data-en="Systems and Telecom Administrator">Administrateur Systèmes et Télécom</span>
+            — <span class="exp-org">ETNIC</span>
+          </div>
+        </div>
+        <span class="badge-live"><span class="d"></span> <span data-fr="EN POSTE" data-en="CURRENT">EN POSTE</span></span>
+      </div>
+      <div class="exp-meta">Bruxelles, BE · Oct 2023 — <span data-fr="Présent" data-en="Present">Présent</span></div>
+      <ul class="exp-list">
+        <li data-fr="Support de niveau 2 et 3 sur les infrastructures LAN, WAN et Wi-Fi." data-en="Provided Level 2 and Level 3 support across LAN, WAN and Wi-Fi infrastructures.">Support de niveau 2 et 3 sur les infrastructures LAN, WAN et Wi-Fi.</li>
+        <li data-fr="Configuration, déploiement et maintenance d'équipements Cisco (switches, AP, routeurs) en production." data-en="Configured, deployed and maintained Cisco network equipment (switches, AP and routers) on production sites.">Configuration, déploiement et maintenance d'équipements Cisco (switches, AP, routeurs) en production.</li>
+        <li data-fr="Participation au déploiement de l'infrastructure réseau du nouveau Centre Régional de Mons." data-en="Participated in the deployment of the network infrastructure for the new Regional Center of Mons.">Participation au déploiement de l'infrastructure réseau du nouveau Centre Régional de Mons.</li>
+        <li data-fr="Scripts Python pour automatiser la collecte d'informations réseau et les tâches administratives." data-en="Developed Python scripts to automate network information gathering and administrative tasks.">Scripts Python pour automatiser la collecte d'informations réseau et les tâches administratives.</li>
+        <li data-fr="Automatisation des opérations réseau via Python et Ansible." data-en="Automated network operations using Python and Ansible.">Automatisation des opérations réseau via Python et Ansible.</li>
+        <li data-fr="Supervision et gestion de l'infrastructure via Cisco Catalyst Center." data-en="Used Cisco Catalyst Center for network monitoring and infrastructure management.">Supervision et gestion de l'infrastructure via Cisco Catalyst Center.</li>
+        <li data-fr="Participation à des projets de migration ISP impliquant la connectivité BGP." data-en="Participated in ISP migration projects involving BGP connectivity.">Participation à des projets de migration ISP impliquant la connectivité BGP.</li>
+      </ul>
+    </div>
+
+    <div class="exp-item reveal">
+      <div class="exp-top">
+        <div class="exp-role">
+          <span data-fr="Stagiaire Administrateur Réseau" data-en="Network Administrator Intern">Stagiaire Administrateur Réseau</span>
+          — <span class="exp-org">ETNIC</span>
+        </div>
+      </div>
+      <div class="exp-meta">Bruxelles, BE · Sep 2022 — Dec 2022</div>
+      <ul class="exp-list">
+        <li data-fr="Identification des équipements non gérés via des scripts Python, sur l'ensemble des sites gérés par l'organisation." data-en="Identified unmanageable devices using Python scripts across all sites managed by the organization.">Identification des équipements non gérés via des scripts Python, sur l'ensemble des sites gérés par l'organisation.</li>
+        <li data-fr="Résolution d'incidents (ServiceNow)." data-en="Incident resolution (ServiceNow).">Résolution d'incidents (ServiceNow).</li>
+        <li data-fr="Remplacement et déploiement d'équipements réseau au sein des organismes de la FWB." data-en="Replacement and deployment of network equipment at FWB agencies.">Remplacement et déploiement d'équipements réseau au sein des organismes de la FWB.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-tag mono">eth3</span>
+      <h2 class="section-title" data-fr="Formation" data-en="Education">Formation</h2>
+    </div>
+    <div class="edu-grid reveal">
+      <div class="panel edu-card">
+        <div class="deg" data-fr="Master en Sciences Informatiques" data-en="Master's Degree, Computer Sciences">Master en Sciences Informatiques</div>
+        <div class="school">UMONS — Charleroi</div>
+        <div class="when">Sep 2024 — Sep 2025</div>
+        <ul>
+          <li data-fr="1 an réalisé en alternance (travail-études)." data-en="Completed 1 year in an alternating work-study program.">1 an réalisé en alternance (travail-études).</li>
+        </ul>
+      </div>
+      <div class="panel edu-card">
+        <div class="deg" data-fr="Bachelier en Informatique et Systèmes" data-en="Bachelor's Degree, Computer Science &amp; Systems">Bachelier en Informatique et Systèmes</div>
+        <div class="school" data-fr="Réseaux &amp; Télécommunications, spécialisation Sécurité" data-en="Networking &amp; Telecommunications, specialization in Security">Réseaux &amp; Télécommunications, spécialisation Sécurité</div>
+        <div class="when">HEH Campus Technique · Sep 2019 — Sep 2024</div>
+        <p data-fr="Diplômé avec distinction satisfaisante." data-en="Graduated with Satisfactory Distinction.">Diplômé avec distinction satisfaisante.</p>
+        <ul>
+          <li data-fr="Réseaux : routage et switching (niveau CCNA), Fortinet, sécurité réseau." data-en="Networking: Routing and Switching (CCNA level), Fortinet, network security.">Réseaux : routage et switching (niveau CCNA), Fortinet, sécurité réseau.</li>
+          <li data-fr="Administration Windows / Linux." data-en="Windows/Linux Administration.">Administration Windows / Linux.</li>
+          <li data-fr="Programmation &amp; scripting : C, Python, JavaScript, PowerShell, Bash." data-en="Programming &amp; scripting: C, Python, JavaScript, PowerShell, Bash.">Programmation &amp; scripting : C, Python, JavaScript, PowerShell, Bash.</li>
+          <li data-fr="Infrastructures programmables : Git, Docker, Ansible." data-en="Programmable infrastructures: Git, Docker, Ansible.">Infrastructures programmables : Git, Docker, Ansible.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-tag mono">eth4</span>
+      <h2 class="section-title" data-fr="Compétences" data-en="Skills">Compétences</h2>
+    </div>
+    <div class="panel reveal" style="overflow-x:auto;">
+      <div class="panel-head">
+        <span data-fr="show interfaces status" data-en="show interfaces status">show interfaces status</span>
+        <span class="status" data-fr="7 actives" data-en="7 up">7 actives</span>
+      </div>
+      <table class="iface-table">
+        <thead>
+          <tr>
+            <th data-fr="Domaine" data-en="Domain">Domaine</th>
+            <th data-fr="Statut" data-en="Status">Statut</th>
+            <th data-fr="Détail" data-en="Detail">Détail</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="iface-name">Networking</td>
+            <td><span class="iface-status"><span class="d"></span><span>up</span></span></td>
+            <td>Cisco, LAN/WAN, Routing &amp; Switching (CCNA), Fortinet, BGP</td>
+          </tr>
+          <tr>
+            <td class="iface-name" data-fr="Sécurité" data-en="Security">Sécurité</td>
+            <td><span class="iface-status prep"><span class="d"></span><span data-fr="en cours" data-en="in progress">en cours</span></span></td>
+            <td>CCNA (<span data-fr="en préparation" data-en="in preparation">en préparation</span>), <span data-fr="sécurité réseau" data-en="network security">sécurité réseau</span>, ITIL</td>
+          </tr>
+          <tr>
+            <td class="iface-name" data-fr="Systèmes" data-en="Systems">Systèmes</td>
+            <td><span class="iface-status"><span class="d"></span><span>up</span></span></td>
+            <td>Windows/Linux Administration, ServiceNow</td>
+          </tr>
+          <tr>
+            <td class="iface-name" data-fr="Programmation" data-en="Programming">Programmation</td>
+            <td><span class="iface-status"><span class="d"></span><span>up</span></span></td>
+            <td>Python, JavaScript, PowerShell, Bash, C</td>
+          </tr>
+          <tr>
+            <td class="iface-name" data-fr="Infrastructure as Code" data-en="Infrastructure as Code">Infrastructure as Code</td>
+            <td><span class="iface-status"><span class="d"></span><span>up</span></span></td>
+            <td>Git, Docker, Ansible</td>
+          </tr>
+          <tr>
+            <td class="iface-name" data-fr="Supervision" data-en="Monitoring">Supervision</td>
+            <td><span class="iface-status"><span class="d"></span><span>up</span></span></td>
+            <td>Cisco Catalyst Center</td>
+          </tr>
+          <tr>
+            <td class="iface-name" data-fr="Méthodologie" data-en="Methodology">Méthodologie</td>
+            <td><span class="iface-status"><span class="d"></span><span>up</span></span></td>
+            <td>ITIL</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="certifications">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-tag mono">eth5</span>
+      <h2 class="section-title" data-fr="Certifications" data-en="Certifications">Certifications</h2>
+    </div>
+    <div class="panel cert-card reveal">
+      <div class="cert-icon">ITIL</div>
+      <div>
+        <div class="cert-name" data-fr="ITIL 4 Foundation — Certificat en gestion des services IT" data-en="ITIL 4 Foundation, Certificate in IT Service Management">ITIL 4 Foundation — Certificat en gestion des services IT</div>
+        <div class="cert-meta">
+          <span data-fr="Organisme émetteur" data-en="Issuing Organization">Organisme émetteur</span>: PeopleCert · Brussels, BE
+          <span class="mono">Dec 2024 — Dec 2027 · N° GR671719382YH</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-tag mono">eth6</span>
+      <h2 class="section-title" data-fr="Contact" data-en="Contact">Contact</h2>
+    </div>
+    <div class="panel contact-panel reveal">
+      <h3 class="mono" style="color:var(--text-dim);font-weight:400;font-size:13px;letter-spacing:.04em;">
+        <span class="prompt" style="color:var(--teal);">younes@etnic</span>:~$ <span data-fr="ping recruteur --contact" data-en="ping recruiter --contact">ping recruteur --contact</span>
+      </h3>
+      <p style="margin-top:16px;color:var(--text-dim);max-width:46ch;margin-left:auto;margin-right:auto;"
+         data-fr="Disponible pour discuter de nouvelles opportunités en réseau, systèmes et sécurité."
+         data-en="Available to discuss new opportunities in networking, systems and security.">
+        Disponible pour discuter de nouvelles opportunités en réseau, systèmes et sécurité.
+      </p>
+      <div class="contact-links">
+        <a class="btn btn-primary" href="mailto:hamraniyounes@protonmail.com">hamraniyounes@protonmail.com</a>
+        <a class="btn btn-ghost" href="tel:+32455101542">+32 455 10 15 42</a>
+        <a class="btn btn-ghost" href="CV_Younes_Hamrani.pdf" download data-fr="↓ Télécharger le CV (PDF)" data-en="↓ Download CV (PDF)">↓ Télécharger le CV (PDF)</a>
+      </div>
+      <div class="config-block">
+        <div><span class="k">linkedin</span> <span class="v">linkedin.com/in/younes-hamrani</span></div>
+        <div><span class="k">github</span> <span class="v">github.com/HamraniYounes</span></div>
+        <div><span class="k">location</span> <span class="v">Mouscron, Belgique</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span data-fr="© 2026 Hamrani Younes — construit avec HTML, CSS &amp; JavaScript." data-en="© 2026 Hamrani Younes — built with HTML, CSS &amp; JavaScript.">© 2026 Hamrani Younes — construit avec HTML, CSS &amp; JavaScript.</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  // ---------- language toggle ----------
+  var buttons = document.querySelectorAll('[data-setlang]');
+  var elements = document.querySelectorAll('[data-fr]');
+
+  function setLang(lang){
+    document.documentElement.setAttribute('lang', lang);
+    document.documentElement.setAttribute('data-lang', lang);
+    elements.forEach(function(el){
+      var val = el.getAttribute('data-' + lang);
+      if(val !== null){ el.innerHTML = val; }
+    });
+    buttons.forEach(function(b){
+      b.classList.toggle('active', b.getAttribute('data-setlang') === lang);
+    });
+    renderHops(lang);
+  }
+
+  buttons.forEach(function(b){
+    b.addEventListener('click', function(){ setLang(b.getAttribute('data-setlang')); });
+  });
+
+  // ---------- traceroute hero animation ----------
+  var hopsData = {
+    fr: [
+      {n:1, host:'heh-campus.formation', t:'Sep 2019'},
+      {n:2, host:'etnic.stage-reseau', t:'Sep 2022'},
+      {n:3, host:'etnic.admin-systemes', t:'Oct 2023'},
+      {n:4, host:'umons.master', t:'Sep 2024'},
+      {n:5, host:'younes-hamrani.dev', t:'0.4ms', final:true}
+    ],
+    en: [
+      {n:1, host:'heh-campus.education', t:'Sep 2019'},
+      {n:2, host:'etnic.network-intern', t:'Sep 2022'},
+      {n:3, host:'etnic.sys-admin', t:'Oct 2023'},
+      {n:4, host:'umons.master', t:'Sep 2024'},
+      {n:5, host:'younes-hamrani.dev', t:'0.4ms', final:true}
+    ]
+  };
+
+  var hopsEl = document.getElementById('hops');
+  var hopTimeouts = [];
+
+  function renderHops(lang){
+    hopTimeouts.forEach(clearTimeout);
+    hopTimeouts = [];
+    hopsEl.innerHTML = '';
+    var data = hopsData[lang] || hopsData.fr;
+    data.forEach(function(hop, i){
+      var row = document.createElement('div');
+      row.className = 'hop' + (hop.final ? ' final' : '');
+      row.style.animationDelay = (i * 0.32) + 's';
+      row.innerHTML =
+        '<span class="n">' + hop.n + '</span>' +
+        '<span class="host">' + hop.host + (hop.final ? (lang === 'fr' ? '  ← prêt' : '  ← ready') : '') + '</span>' +
+        '<span class="t">' + hop.t + '</span>';
+      hopsEl.appendChild(row);
+    });
+  }
+
+  renderHops('fr');
+
+  // ---------- scroll reveal ----------
+  var revealEls = document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, {threshold:0.12});
+    revealEls.forEach(function(el){ io.observe(el); });
+  } else {
+    revealEls.forEach(function(el){ el.classList.add('in'); });
+  }
+})();
+</script>
+
+</body>
+</html>
